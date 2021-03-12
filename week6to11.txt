@@ -1,0 +1,198 @@
+from week6:
+----------------------
+1. good bad avg:
+-----------------------
+t=int(input())
+for i in range(t):
+    n,x=map(int,input().split())
+    l=list(map(int,input().split()))
+    p=set(l)
+    if(len(p)==x):
+        print("Good")
+    elif(len(p)<x):
+        print("Bad")
+    else:
+        print("Average")
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+2. differnce alt +ve -ve:
+-----------------------------
+t=list(map(int,input().split()))
+if(len(t)<2):
+    print(len(t))
+else:
+    prev=0
+    count=len(t)
+    for i in range(1,len(t)):
+        diff=t[i]-t[i-1]
+        if(diff==0):
+            count-=1
+        elif((diff>0 and prev<=0) or(diff<0 and prev>=0)):
+            prev=diff
+        else:
+            count-=1
+    print(count)
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+3.target sum combinations:
+-----------------------------
+from itertools import combinations
+a=list(map(int,input().split()))
+l=[]
+target=int(input())
+for i in range(1,len(a)):
+    p=list(combinations(a,i))
+    for j in p:
+        if(sum(j)==target):
+            l.append(j)
+output=set(map(lambda x:tuple(sorted(x)),l))
+k=[]
+for i in output:
+    k.append(list(i))
+print(k)    
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+4. Jim candy:
+-----------------------------
+def fact(x,y=0):
+    p = 1
+    for i in range(y+1,x+1):
+        p*=i
+    return p
+
+for _ in range(int(input())):
+    n = int(input())
+    k = int(input())
+    print((fact(k+n-1,n-1)//fact(k))%10**9)
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+5. Mountain exist:
+-----------------------------
+import java.util.*;
+class Main {
+    public int peak(int[] arr) 
+    {
+        int low=0,high=arr.length-1;
+        while(low<=high){
+            int mid=(high+low)/2;
+            if(arr[mid]>arr[mid-1] && arr[mid]>arr[mid+1]){
+                return mid;
+            }
+            if(arr[mid-1]>arr[mid]){
+                high=mid;
+            }
+            else{
+                low=mid;
+            }
+        }
+        return 0;
+    }
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        Main m=new Main();
+        System.out.println("Enter the array size: ");
+        int n=sc.nextInt();
+        int a[]=new int[n];
+        System.out.println("Enter array elements: ");
+        for(int i=0; i<n; i++)
+        {
+            a[i]=sc.nextInt();
+        }
+        int res=m.peak(a);
+        if(res==0)
+            System.out.println("Mountain does not exist");
+        else
+            System.out.println("Peak Index mountain array "+res);
+    }
+}
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+6. Solutions for cents number of ways:
+----------------------------------------
+def count(l,m,n):
+    if n==0:
+        return 1
+    if n<0:
+        return 0
+    if m<=0 and n>=1:
+        return 0
+    return count(l,m-1,n) + count(l,m,n-l[m-1])
+    
+t=int(input())
+for i in range(t):
+    n=int(input())
+    l=list(map(int, input().split()))
+    s=int(input())
+    m=len(l)
+    print(count(l,m,s))
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+7.count rats:
+----------------------------------------
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class Main
+{
+    int n;
+    public Main(int n)
+    {
+        this.n=n;
+    }
+    
+    boolean isSafe(int m[][], int row, int col, boolean v[][])
+    {
+        return (row>=0) && (row<n) && (col>=0) && (col<n) && (m[row][col]==0 && !v[row][col]); 
+    }
+    
+    void dfs(int m[][], int row, int col, boolean v[][])
+    {
+        int rown[]=new int[]{-1,0,0,1};
+        int coln[]=new int[]{0,-1,1,0};
+        v[row][col]=true;
+        for(int k=0; k<4; ++k)
+        {
+            if(isSafe(m,row+rown[k], col+coln[k], v))
+            {
+                dfs(m, row+rown[k], col+coln[k],v);
+            }
+        }
+    }
+    
+    int countRats(int m[][])
+    {
+        boolean v[][]=new boolean[n][n];
+        int count=0;
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                if(m[i][j]==0 && !v[i][j])
+                {
+                    dfs(m,i,j,v);
+                    ++count;
+                }
+            }
+        }
+        return count;
+    }
+    
+	public static void main(String[] args) 
+	{
+	    Scanner sc=new Scanner(System.in);
+	    int n=sc.nextInt();
+	    int g[][]=new int[n][n];
+	    for(int i=0; i<n; i++)
+	    {
+	        for(int j=0; j<n; j++)
+	        {
+	            g[i][j]=sc.nextInt();
+	        } 
+	    }
+	    Main r=new Main(n);
+	    System.out.println("Number of Rats "+r.countRats(g));
+	}
+}
+

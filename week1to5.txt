@@ -1,0 +1,390 @@
+1. Binary pattern:
+-----------------------
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) 
+	{
+		Scanner sc=new Scanner(System.in);
+		String s=sc.next();
+		int len=s.length();
+		char c[]=new char[len];
+		c=s.toCharArray();
+		prints(c,0);
+
+	}
+	
+	public static void prints(char c[],int i)
+	{
+		if(c.length==i)
+		{
+			System.out.println(c);
+			return;
+		}
+		if(c[i]=='?')
+		{
+			c[i]='0';
+			prints(c,i+1);
+			c[i]='1';
+			prints(c,i+1);
+			c[i]='?';
+		}
+		else prints(c,i+1);
+	}
+
+}
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+2. Three stacks:
+-----------------
+import java.util.*;
+class Main
+{
+	public static void main(String args[])
+	{
+		Scanner sc=new Scanner(System.in);
+		int n1=sc.nextInt();
+		int n2=sc.nextInt();
+		int n3=sc.nextInt();
+		Stack<Integer> stk1= new Stack<Integer>();
+		Stack<Integer> stk2= new Stack<Integer>();  
+		Stack<Integer> stk3= new Stack<Integer>();
+		int sum1=0,sum2=0,sum3=0;
+		for(int i=0;i<n1;i++)
+		{
+			int j=sc.nextInt();
+			stk1.push(j);
+			sum1+=j;
+			//System.out.println("sum1"+sum1);
+		}
+		for(int i=0;i<n2;i++)
+		{
+			int j=sc.nextInt();
+			stk2.push(j);
+			sum2+=j;
+			//System.out.println("sum1"+sum2);
+		}
+		for(int i=0;i<n3;i++)
+		{
+			int j=sc.nextInt();
+			stk3.push(j);
+			sum3+=j;
+			//System.out.println("sum1"+sum3);
+		}
+		while(sum1!=sum2||sum2!=sum3){
+		if(sum1>sum2 &&sum1>sum3)
+		{
+			int p=stk1.get(0);
+			stk1.removeElementAt(0);
+			sum1-=p;
+			//System.out.println("sum1"+sum1);
+		}
+		if(sum2>sum1 &&sum2>sum3)
+		{
+			int p=stk2.get(0);
+			stk2.removeElementAt(0); 
+			sum2-=p;
+			//System.out.println("sum2"+sum2);
+		}
+		if(sum3>sum2 &&sum3>sum1)
+		{
+			int p=stk3.get(0);
+			stk3.removeElementAt(0); 
+			sum3-=p;
+			//System.out.println("sum3"+sum3);
+		}
+		}
+		System.out.println(sum1);
+	}
+}
+
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+3.Count Islands:
+-----------------
+def island(s,l,k,r,c):
+    if(l<0 or l>=r or k<0 or k>=c or s[l][k]!=1):
+        return s
+    else:
+        s[l][k]=2
+        island(s,l+1,k,r,c)
+        island(s,l,k+1,r,c)
+        island(s,l-1,k,r,c)
+        island(s,l,k-1,r,c)
+        
+m=int(input("Enter number of rows:"))
+n=int(input("Enter number of Columns:"))
+b=[]
+c=0
+
+for i in range(m):
+    a=list(map(int, input().split()))
+    b.append(a)
+    del(a)
+for i in range(m):
+    for j in range(n):
+        if(b[i][j]==1):
+            c=c+1
+            island(b,i,j,m,n)
+print(c)
+
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+3. Arrange vowels and Consonants:
+---------------------------------
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+def isVowel(d):
+    p='aeiouAEIOU'
+    if d in p:
+        return True
+    else:
+        return False
+def arrangeCV(head):
+    temp= head
+    lv= None
+    curr = head
+    if (head == None):
+        return None
+    if (isVowel(head.data)):
+        lv= head
+    else:
+        while (curr.next != None and not isVowel(curr.next.data)):
+            curr = curr.next
+        if (curr.next == None):
+            return head
+        lv= temp = curr.next
+        curr.next = curr.next.next
+        lv.next = head
+    while (curr != None and curr.next != None):
+        if (isVowel(curr.next.data)):
+            if (curr == lv):
+                lv = curr = curr.next
+            else:
+                p= lv.next
+                lv.next = curr.next
+                lv = lv.next
+                curr.next = curr.next.next
+                lv.next =p
+        else:
+            curr = curr.next
+    return temp
+t=int(input())
+for i in range(t):
+    n=int(input())
+    p=list(input().split())
+    head=Node(p[0])
+    tail=head
+    for i in range(1,n):
+        tail.next=Node(p[i])
+        tail=tail.next
+    temp=arrangeCV(head)
+    while(temp):
+        print(temp.data)
+        temp=temp.next
+
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+4.linked list contains cycle:
+-------------------------------------
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+def detectloop(head):
+    s=head
+    t=head
+    while(s!=None and t!=None and t.next!=None):
+        s=s.next
+        t=t.next.next
+        if(s==t):
+            return True
+        
+    return False
+p=list(map(int,input().split()))
+head=Node(p[0])
+tail=head
+for i in range(1,len(p)):
+    tail.next=Node(p[i])
+    tail=tail.next
+head.next.next.next=head
+if detectloop(head):
+    print('1')
+else:
+    print('0')
+    
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+5. Update pointers:
+---------------------------
+#include <stdio.h>
+void update(int *a,int *b)
+{
+    *a=*a+*b;
+    if((*a-*b)>*b)
+    *b=(*a-*b)-*b;
+    else
+    *b=*b-(*a-*b);
+}
+int main()
+{
+    int a,b;
+    scanf("%d %d",&a,&b);
+    update(&a,&b);
+    printf("%d %d",a,b);
+    return 0;
+}
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+6.Length of longest substring:
+-------------------------------
+s=input()
+max=0
+n=len(s)
+l=[]
+for i in range(n):
+    if s[i] not in l:
+        l.append(s[i])
+    else:
+        if max<len(l):
+            max=len(l)
+        l.clear();
+    
+print(max)
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+7. Update pointers in array:
+-----------------------------------
+#include <stdio.h>
+void updateVar(int *n,int *t)
+{
+    for(int i=0;i<*t;i++)
+    n[i]+=10;
+}
+int main()
+{
+    int t,i;
+    scanf("%d",&t);
+    int a[t];
+    for(i=0;i<t;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    updateVar(a,&t);
+    for(i=0;i<t;i++)
+    {
+        printf("%d\n",a[i]);
+    }
+    return 0;
+}
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+8. Minimum cost to reach cell:
+---------------------------------------
+import java.util.*;
+class Main
+{
+    int mincost(int a[][], int m, int n)
+    {
+        if(n==0 || m==0)
+        {
+            return 9999;
+        }
+        if(m==1 && n==1)
+        {
+            return a[0][0];
+        }
+        
+        return Integer.min(mincost(a,m-1,n), mincost(a,m,n-1))+a[m-1][n-1];
+    }
+    public static void main(String args[])
+    {
+        Main m=new Main();
+        Scanner sc=new Scanner(System.in);
+        int r,c, i, j;
+        System.out.println("Enter no. of rows and colums: ");
+        r=sc.nextInt();
+        c=sc.nextInt();
+        int a[][]=new int[r][c];
+        System.out.println("Enter elements:");
+        for(i=0; i<r; i++)
+        {
+            for(j=0;j<c; j++)
+            {
+                a[i][j]=sc.nextInt();
+            }
+        }
+        System.out.println("Min cost is:"+m.mincost(a,r,c));
+    }
+}
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+9. length of rod:
+----------------------------------
+def max(a, b): 
+	return a if (a > b) else b 
+def cutRod(price, n): 
+	if(n <= 0): 
+	    return 0
+	max_val = -99999
+	for i in range(0, n): 
+	    max_val = max(max_val, price[i]+cutRod(price, n - i - 1)) 
+	return max_val 
+p=list(map(int,input().split()))
+print(cutRod(p,len(p)))
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+10.remove duplicates:
+-------------------------------
+def reduce(i,s):
+    if(i<=0):
+        return s
+    if(s[i-1:i]==s[i:i+1]):
+        s=s[:i-1]+s[i+1:]
+    s=reduce(min(len(s)-1,i-1),s)
+    return s
+s=input()
+p=reduce(len(s)-1,s)
+if(len(p)==0):
+    print("Empty String")
+else:
+    print(p)
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+11. copy new string cost dollar
+-------------------------------------
+n=int(input())
+l=[]
+res=[]
+for i in range(n):
+    l.append(input())
+    cost=0
+    s=l[i]
+    p=""
+    for j in range(len(s)):
+        if s[j]in p:
+            cost=cost+0
+        else:
+            cost+=1
+            p=p+s[j]
+    res.append(cost)
+for i in range(n):
+    print(res[i])    
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+12. min dist b/w pair of equal elements:
+------------------------------------------------
+n=int(input())
+a=list(map(int,input().split()))
+res=n
+for i in range(n):
+    c=0
+    for j in range(i+1,n):
+        if(a[i]==a[j]):
+            d=j-i
+            res=min(d,res)
+print(res)
+
